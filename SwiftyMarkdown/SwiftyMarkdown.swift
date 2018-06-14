@@ -439,6 +439,7 @@ enum LineStyle : Int {
 			fontName = link.fontName
 			fontSize = link.fontSize
 			attributes[NSAttributedStringKey.foregroundColor] = link.color
+            attributes[NSAttributedStringKey.underlineStyle] = NSUnderlineStyle.styleSingle.rawValue as AnyObject
 		}
 		
 		// Fallback to body
