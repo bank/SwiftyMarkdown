@@ -13,6 +13,7 @@ import UIKit
 	var fontName : String? { get set }
 	var color : UIColor { get set }
 	var fontSize : CGFloat { get set }
+    var lineHeight : CGFloat { get set }
 }
 
 
@@ -25,6 +26,7 @@ If that is not set, then the system default will be used.
 	public var fontName : String? = UIFont.preferredFont(forTextStyle: UIFontTextStyle.body).fontName
 	public var color = UIColor.black
 	public var fontSize : CGFloat = 0.0
+    public var lineHeight: CGFloat = 1.3
 }
 
 enum LineType : Int {
@@ -372,6 +374,7 @@ enum LineStyle : Int {
 		var fontName : String?
 		var attributes = attributes
 		var fontSize : CGFloat?
+        var lineHeight : CGFloat = 0
 		
 		// What type are we and is there a font name set?
 		
@@ -380,6 +383,7 @@ enum LineStyle : Int {
 		case .h1:
 			fontName = h1.fontName
 			fontSize = h1.fontSize
+            lineHeight = h1.lineHeight
 			if #available(iOS 9, *) {
 				textStyle = UIFontTextStyle.title1
 			} else {
@@ -389,6 +393,7 @@ enum LineStyle : Int {
 		case .h2:
 			fontName = h2.fontName
 			fontSize = h2.fontSize
+            lineHeight = h2.lineHeight
 			if #available(iOS 9, *) {
 				textStyle = UIFontTextStyle.title2
 			} else {
@@ -398,6 +403,7 @@ enum LineStyle : Int {
 		case .h3:
 			fontName = h3.fontName
 			fontSize = h3.fontSize
+            lineHeight = h3.lineHeight
 			if #available(iOS 9, *) {
 				textStyle = UIFontTextStyle.title2
 			} else {
@@ -407,21 +413,25 @@ enum LineStyle : Int {
 		case .h4:
 			fontName = h4.fontName
 			fontSize = h4.fontSize
+            lineHeight = h4.lineHeight
 			textStyle = UIFontTextStyle.headline
 			attributes[NSAttributedStringKey.foregroundColor] = h4.color
 		case .h5:
 			fontName = h5.fontName
 			fontSize = h5.fontSize
+            lineHeight = h5.lineHeight
 			textStyle = UIFontTextStyle.subheadline
 			attributes[NSAttributedStringKey.foregroundColor] = h5.color
 		case .h6:
 			fontName = h6.fontName
 			fontSize = h6.fontSize
+            lineHeight = h6.lineHeight
 			textStyle = UIFontTextStyle.footnote
 			attributes[NSAttributedStringKey.foregroundColor] = h6.color
 		default:
 			fontName = body.fontName
 			fontSize = body.fontSize
+            lineHeight = body.lineHeight
 			textStyle = UIFontTextStyle.body
 			attributes[NSAttributedStringKey.foregroundColor] = body.color
 			break
@@ -432,12 +442,14 @@ enum LineStyle : Int {
 		if style == .code {
 			fontName = code.fontName
 			fontSize = code.fontSize
+            lineHeight = code.lineHeight
 			attributes[NSAttributedStringKey.foregroundColor] = code.color
 		}
 		
 		if style == .link {
 			fontName = link.fontName
 			fontSize = link.fontSize
+            lineHeight = link.lineHeight
 			attributes[NSAttributedStringKey.foregroundColor] = link.color
             attributes[NSAttributedStringKey.underlineStyle] = NSUnderlineStyle.styleSingle.rawValue as AnyObject
 		}
@@ -477,7 +489,11 @@ enum LineStyle : Int {
 		
 		
 		attributes[NSAttributedStringKey.font] = finalFont
-		
+
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineHeightMultiple = lineHeight
+        attributes[NSAttributedStringKey.paragraphStyle] = paragraphStyle
+
 		return NSAttributedString(string: string, attributes: attributes)
 	}
 }
