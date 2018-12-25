@@ -23,7 +23,7 @@ A struct defining the styles that can be applied to the parsed Markdown. The `fo
 If that is not set, then the system default will be used.
 */
 @objc open class BasicStyles : NSObject, FontProperties {
-	public var fontName : String? = UIFont.preferredFont(forTextStyle: UIFontTextStyle.body).fontName
+    public var fontName : String? = UIFont.preferredFont(forTextStyle: UIFont.TextStyle.body).fontName
 	public var color = UIColor.black
 	public var fontSize : CGFloat = 0.0
     public var lineHeight: CGFloat = 1.3
@@ -298,7 +298,7 @@ enum LineStyle : Int {
 		
 		var style = LineStyle.styleFromString(results.foundCharacters)
 		
-		var attributes = [NSAttributedStringKey : AnyObject]()
+        var attributes = [NSAttributedString.Key : AnyObject]()
 		if style == .link {
 			
 			var linkText : NSString?
@@ -313,7 +313,7 @@ enum LineStyle : Int {
 			
 			if let hasLink = linkText, let hasURL = linkURL {
 				followingString = hasLink
-				attributes[NSAttributedStringKey.link] = hasURL
+                attributes[NSAttributedString.Key.link] = hasURL
 			} else {
 				style = .none
 			}
@@ -369,8 +369,8 @@ enum LineStyle : Int {
 	
 	// Make H1
 	
-	func attributedStringFromString(_ string : String, withStyle style : LineStyle, attributes : [NSAttributedStringKey : AnyObject] = [:] ) -> NSAttributedString {
-		let textStyle : UIFontTextStyle
+    func attributedStringFromString(_ string : String, withStyle style : LineStyle, attributes : [NSAttributedString.Key : AnyObject] = [:] ) -> NSAttributedString {
+        let textStyle : UIFont.TextStyle
 		var fontName : String?
 		var attributes = attributes
 		var fontSize : CGFloat?
@@ -385,55 +385,55 @@ enum LineStyle : Int {
 			fontSize = h1.fontSize
             lineHeight = h1.lineHeight
 			if #available(iOS 9, *) {
-				textStyle = UIFontTextStyle.title1
+				textStyle = UIFont.TextStyle.title1
 			} else {
-				textStyle = UIFontTextStyle.headline
+				textStyle = UIFont.TextStyle.headline
 			}
-			attributes[NSAttributedStringKey.foregroundColor] = h1.color
+            attributes[NSAttributedString.Key.foregroundColor] = h1.color
 		case .h2:
 			fontName = h2.fontName
 			fontSize = h2.fontSize
             lineHeight = h2.lineHeight
 			if #available(iOS 9, *) {
-				textStyle = UIFontTextStyle.title2
+                textStyle = UIFont.TextStyle.title2
 			} else {
-				textStyle = UIFontTextStyle.headline
+				textStyle = UIFont.TextStyle.headline
 			}
-			attributes[NSAttributedStringKey.foregroundColor] = h2.color
+			attributes[NSAttributedString.Key.foregroundColor] = h2.color
 		case .h3:
 			fontName = h3.fontName
 			fontSize = h3.fontSize
             lineHeight = h3.lineHeight
 			if #available(iOS 9, *) {
-				textStyle = UIFontTextStyle.title2
+				textStyle = UIFont.TextStyle.title2
 			} else {
-				textStyle = UIFontTextStyle.subheadline
+				textStyle = UIFont.TextStyle.subheadline
 			}
-			attributes[NSAttributedStringKey.foregroundColor] = h3.color
+			attributes[NSAttributedString.Key.foregroundColor] = h3.color
 		case .h4:
 			fontName = h4.fontName
 			fontSize = h4.fontSize
             lineHeight = h4.lineHeight
-			textStyle = UIFontTextStyle.headline
-			attributes[NSAttributedStringKey.foregroundColor] = h4.color
+			textStyle = UIFont.TextStyle.headline
+			attributes[NSAttributedString.Key.foregroundColor] = h4.color
 		case .h5:
 			fontName = h5.fontName
 			fontSize = h5.fontSize
             lineHeight = h5.lineHeight
-			textStyle = UIFontTextStyle.subheadline
-			attributes[NSAttributedStringKey.foregroundColor] = h5.color
+			textStyle = UIFont.TextStyle.subheadline
+			attributes[NSAttributedString.Key.foregroundColor] = h5.color
 		case .h6:
 			fontName = h6.fontName
 			fontSize = h6.fontSize
             lineHeight = h6.lineHeight
-			textStyle = UIFontTextStyle.footnote
-			attributes[NSAttributedStringKey.foregroundColor] = h6.color
+			textStyle = UIFont.TextStyle.footnote
+			attributes[NSAttributedString.Key.foregroundColor] = h6.color
 		default:
 			fontName = body.fontName
 			fontSize = body.fontSize
             lineHeight = body.lineHeight
-			textStyle = UIFontTextStyle.body
-			attributes[NSAttributedStringKey.foregroundColor] = body.color
+			textStyle = UIFont.TextStyle.body
+			attributes[NSAttributedString.Key.foregroundColor] = body.color
 			break
 		}
 		
@@ -443,15 +443,15 @@ enum LineStyle : Int {
 			fontName = code.fontName
 			fontSize = code.fontSize
             lineHeight = code.lineHeight
-			attributes[NSAttributedStringKey.foregroundColor] = code.color
+			attributes[NSAttributedString.Key.foregroundColor] = code.color
 		}
 		
 		if style == .link {
 			fontName = link.fontName
 			fontSize = link.fontSize
             lineHeight = link.lineHeight
-			attributes[NSAttributedStringKey.foregroundColor] = link.color
-            attributes[NSAttributedStringKey.underlineStyle] = NSUnderlineStyle.styleSingle.rawValue as AnyObject
+			attributes[NSAttributedString.Key.foregroundColor] = link.color
+            attributes[NSAttributedString.Key.underlineStyle] = NSUnderlineStyle.single.rawValue as AnyObject
 		}
 		
 		// Fallback to body
@@ -488,11 +488,11 @@ enum LineStyle : Int {
 		}
 		
 		
-		attributes[NSAttributedStringKey.font] = finalFont
+		attributes[NSAttributedString.Key.font] = finalFont
 
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = lineHeight
-        attributes[NSAttributedStringKey.paragraphStyle] = paragraphStyle
+        attributes[NSAttributedString.Key.paragraphStyle] = paragraphStyle
 
 		return NSAttributedString(string: string, attributes: attributes)
 	}
